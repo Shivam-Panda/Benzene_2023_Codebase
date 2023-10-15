@@ -37,10 +37,12 @@ public class RobotContainer {
 
     /* Driver Buttons */
     private final JoystickButton Rotate = new JoystickButton(driver, Joystick.ButtonType.kTrigger.value);
-    private final JoystickButton IntakeTurnUp = new JoystickButton(Manip, 11);
-    private final JoystickButton IntakeTurnDown = new JoystickButton(Manip, 12);
+    private final JoystickButton IntakeTurnUp = new JoystickButton(Manip, 3);
+    private final JoystickButton IntakeTurnDown = new JoystickButton(Manip, 4);
     private final JoystickButton IntakespitCone = new JoystickButton(Manip, 2);
     private final JoystickButton IntakespitCube = new JoystickButton(Manip, 1);
+    private final JoystickButton ArmBaseUp = new JoystickButton(Manip, 6);
+    private final JoystickButton ArmBaseDown = new JoystickButton(Manip, 5);
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
     private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
 
@@ -114,13 +116,21 @@ public class RobotContainer {
         A - Cone In/Cube Out
         B - Cube In/Cone Out
          */
+
+        if(ArmBaseUp.getAsBoolean()) {
+            ArmBase.Up();
+        } else if(ArmBaseDown.getAsBoolean()) {
+            ArmBase.Down();
+        } else {
+            ArmBase.stop();
+        }
         /** Intake Tuner */
 
-        if (Manip.getRawAxis(1, 0.1) < 0) {
+        if (IntakeTurnUp.getAsBoolean()) {
             SmartDashboard.putBoolean("IntakeTurner", true);
             IntakeTuner.Up();
         }
-        else if (Manip.getRawAxis(1, 0.1) > 0) {
+        else if (IntakeTurnDown.getAsBoolean()) {
             SmartDashboard.putBoolean("IntakeTurner", false);
             IntakeTuner.Down();
         }
@@ -128,6 +138,8 @@ public class RobotContainer {
             SmartDashboard.putBoolean("IntakeTurner", false);
             IntakeTuner.stopMotor();
         }
+
+
 
         /** Intake */
         if (IntakespitCone.getAsBoolean()) {
